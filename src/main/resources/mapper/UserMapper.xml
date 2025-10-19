@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.mybatis.mapper.UserMapper">
+    <resultMap id="UserResultMap" type="org.example.mybatis.entity.User">
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="email" column="email"/>
+        <result property="age" column="age"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <!--
+      查询所有用户，喵～
+      - id: 必须与接口中的方法名 `findAll` 完全一致，喵～
+      - resultType: 告诉 MyBatis 把查出来的数据变成哪个样子的 Java 对象，这里就是我们的 User 实体类啦，喵～
+        MyBatis 会自动把数据库的下划线命名 (比如 create_time) 映射到 Java 的驼峰命名 (比如 createTime) 哦，
+        这都是因为主人你在配置文件里开启了 map-underscore-to-camel-case=true 的魔法呢，喵～
+    -->
+<select id="findAll" resultMap="UserResultMap">
+    SELECT id, username, password, email, age, create_time, update_time
+    FROM user
+</select>
+
+    <!--
+      根据ID查询单个用户，喵～
+      - #{id}: 这个小括号很重要哦，它是一个安全的占位符，可以防止坏人搞破坏（SQL注入），喵～
+    -->
+    <select id="findById" resultType="org.example.mybatis.entity.User">
+        SELECT id, username, password, email, age, create_time, update_time
+        FROM user
+        WHERE id = #{id}
+    </select>
+
+    <!--
+      插入新用户，喵～
+      - useGeneratedKeys="true": 告诉 MyBatis 我们希望使用数据库的自增主键，喵～
+      - keyProperty="id": 把数据库生成的主键值，放回到我们传入的 User 对象的 id 属性里，喵～
+    -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO user (username, password, email, age, create_time, update_time)
+        VALUES (#{username}, #{password}, #{email}, #{age}, NOW(), NOW())
+    </insert>
+
+
+    <!--
+      更新用户信息，喵～
+    -->
+    <update id="update">
+        UPDATE user
+        SET username    = #{username},
+            password    = #{password},
+            email       = #{email},
+            age         = #{age},
+            update_time = NOW()
+        WHERE id = #{id}
+    </update>
+
+    <!-- 根据ID删除用户，喵～ -->
+    <delete id="deleteById">
+        DELETE FROM user WHERE id = #{id}
+    </delete>
+
+</mapper>
