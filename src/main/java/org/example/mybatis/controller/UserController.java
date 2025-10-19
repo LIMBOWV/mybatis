@@ -1,7 +1,7 @@
 package org.example.mybatis.controller;
 
 import org.example.mybatis.entity.User;
-import org.example.mybatis.service.UserServiceImpl;
+import org.example.mybatis.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,16 +26,16 @@ import java.util.List;
 public class UserController {
 
     // 声明 UserService 依赖，使用 final 确保依赖不可变
-    private final UserServiceImpl userService;
+    private final UserService userService;
 
     /**
      * 构造器注入 UserService 依赖
      *
-     * @param userServiceImpl 用户服务实例
+     * @param userService 用户服务实例
      */
     @Autowired
-    public UserController(UserServiceImpl userServiceImpl) {
-        this.userService = userServiceImpl;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     /**
