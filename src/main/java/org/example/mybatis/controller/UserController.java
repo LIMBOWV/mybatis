@@ -1,7 +1,7 @@
 package org.example.mybatis.controller;
 
 import org.example.mybatis.entity.User;
-import org.example.mybatis.service.UserService;
+import org.example.mybatis.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,19 +23,19 @@ import java.util.List;
 // @RequestMapping: 请求映射注解，定义该控制器处理的请求路径前缀
 // 所有方法的路径都会在 "/api/users" 之后
 @RequestMapping("/api/users")
-public class Usercontroller {
+public class UserController {
 
     // 声明 UserService 依赖，使用 final 确保依赖不可变
-    private final UserService userService;
+    private final UserServiceImpl userService;
 
     /**
      * 构造器注入 UserService 依赖
      *
-     * @param userService 用户服务实例
+     * @param userServiceImpl 用户服务实例
      */
     @Autowired
-    public Usercontroller(UserService userService) {
-        this.userService = userService;
+    public UserController(UserServiceImpl userServiceImpl) {
+        this.userService = userServiceImpl;
     }
 
     /**
